@@ -8,5 +8,5 @@ export default {
   dbCredentials: {
     url: env.DATABASE_URL,
   },
-  tablesFilter: ["infinity-the-data_*"],
+  tablesFilter: ["itd_*"],
 } satisfies Config;
