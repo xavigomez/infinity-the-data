@@ -1,29 +1,42 @@
-# Create T3 App
+# Infinity the data
 
-This is a [T3 Stack](https://create.t3.gg/) project bootstrapped with `create-t3-app`.
+## TO-DO
+- [x] Create project
+- [x] Create db connection
+- [x] Be able to migrate schema from db from dev to prod
+- [x] Be able to upload data from prod
+- [x] Create db schema
+- [ ] Get data from db
+- [ ] Build tournament page
 
-## What's next? How do I make an app with this?
+## Concerns
+### 1. DB mutation types
+As of now, I am using defined types for the mutation of the database. I don't feel like this is ideal, and I'd like to move it to an approach similar to Prisma's (`Prisma.FooBarInput`).
 
-We try to keep this project as simple as possible, so you can start with just the scaffolding we set up for you, and add additional things later when they become necessary.
+Some options are:
+- `UseInferInserModel`, and `InferSelectModel` from `drizzle-orm` like so:
+```ts
+import { InferInsertModel, InferSelectModel } from 'drizzle-orm';
+import { users } from './schema';
 
-If you are not familiar with the different technologies used in this project, please refer to the respective docs. If you still are in the wind, please join our [Discord](https://t3.gg/discord) and ask for help.
+// Similar to Prisma.UserCreateInput
+type UserInsert = InferInsertModel<typeof users>;
 
-- [Next.js](https://nextjs.org)
-- [NextAuth.js](https://next-auth.js.org)
-- [Prisma](https://prisma.io)
-- [Drizzle](https://orm.drizzle.team)
-- [Tailwind CSS](https://tailwindcss.com)
-- [tRPC](https://trpc.io)
+// Similar to Prisma.UserSelect
+type UserSelect = InferSelectModel<typeof users>;
+```
 
-## Learn More
+- Creating custom input types based on your schema. Like so:
 
-To learn more about the [T3 Stack](https://create.t3.gg/), take a look at the following resources:
+```ts
+import { sql } from 'drizzle-orm';
+import { integer, pgTable, text } from 'drizzle-orm/pg-core';
 
-- [Documentation](https://create.t3.gg/)
-- [Learn the T3 Stack](https://create.t3.gg/en/faq#what-learning-resources-are-currently-available) — Check out these awesome tutorials
+const users = pgTable('users', {
+  id: integer('id').primaryKey(),
+  name: text('name'),
+  email: text('email')
+});
 
-You can check out the [create-t3-app GitHub repository](https://github.com/t3-oss/create-t3-app) — your feedback and contributions are welcome!
-
-## How do I deploy this?
-
-Follow our deployment guides for [Vercel](https://create.t3.gg/en/deployment/vercel), [Netlify](https://create.t3.gg/en/deployment/netlify) and [Docker](https://create.t3.gg/en/deployment/docker) for more information.
+type UserInput = Omit<UserInsert, 'id'>;
+```
