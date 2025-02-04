@@ -2,11 +2,9 @@
 // https://orm.drizzle.team/docs/sql-schema-declaration
 import { sql, relations } from "drizzle-orm";
 import {
-  index,
   integer,
   pgTableCreator,
   timestamp,
-  varchar,
   uuid,
   text,
   boolean,
@@ -21,23 +19,6 @@ import {
  * @see https://orm.drizzle.team/docs/goodies#multi-project-schema
  */
 export const createTable = pgTableCreator((name) => `itd_${name}`);
-
-export const posts = createTable(
-  "post",
-  {
-    id: integer("id").primaryKey().generatedByDefaultAsIdentity(),
-    name: varchar("name", { length: 256 }),
-    createdAt: timestamp("created_at", { withTimezone: true })
-      .default(sql`CURRENT_TIMESTAMP`)
-      .notNull(),
-    updatedAt: timestamp("updated_at", { withTimezone: true }).$onUpdate(
-      () => new Date(),
-    ),
-  },
-  (example) => ({
-    nameIndex: index("name_idx").on(example.name),
-  }),
-);
 
 export const players = createTable("players", {
   id: uuid("id").primaryKey().defaultRandom(),
