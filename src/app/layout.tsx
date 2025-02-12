@@ -1,9 +1,8 @@
 import "~/styles/globals.css";
-
-import { GeistSans } from "geist/font/sans";
 import { type Metadata } from "next";
 
 import { TRPCReactProvider } from "~/trpc/react";
+import { ThemeProvider } from "next-themes";
 
 export const metadata: Metadata = {
   title: "Infinity The Data",
@@ -15,10 +14,20 @@ export default function RootLayout({
   children,
 }: Readonly<{ children: React.ReactNode }>) {
   return (
-    <html lang="en" className={`${GeistSans.variable}`}>
-      <body className="bg-gray-800 text-gray-200">
-        <TRPCReactProvider>{children}</TRPCReactProvider>
-      </body>
+    <html lang="en">
+      <TRPCReactProvider>
+        {/* <body className={`${spaceGrotesk.variable} ${glitchRobot.variable}`}> */}
+        <body>
+          <ThemeProvider
+            attribute="class"
+            defaultTheme="system"
+            enableSystem
+            disableTransitionOnChange
+          >
+            {children}
+          </ThemeProvider>
+        </body>
+      </TRPCReactProvider>
     </html>
   );
 }
