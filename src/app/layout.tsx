@@ -1,8 +1,11 @@
 import "~/styles/globals.css";
+import "~/styles/fonts.css";
 import { type Metadata } from "next";
 
 import { TRPCReactProvider } from "~/trpc/react";
-import { ThemeProvider } from "next-themes";
+import { ThemeProvider } from "~/components/providers/theme-provider";
+import { ThemeToggleButton } from "~/components/theme-toggle-button";
+import Link from "next/link";
 
 export const metadata: Metadata = {
   title: "Infinity The Data",
@@ -14,9 +17,8 @@ export default function RootLayout({
   children,
 }: Readonly<{ children: React.ReactNode }>) {
   return (
-    <html lang="en">
+    <html lang="en" suppressHydrationWarning>
       <TRPCReactProvider>
-        {/* <body className={`${spaceGrotesk.variable} ${glitchRobot.variable}`}> */}
         <body>
           <ThemeProvider
             attribute="class"
@@ -24,7 +26,27 @@ export default function RootLayout({
             enableSystem
             disableTransitionOnChange
           >
+            <header className="sticky top-0 z-50 w-full px-4 text-center backdrop-blur-lg">
+              <div className="container mx-auto flex h-16 items-center justify-between">
+                <Link className="text-xl font-bold" href={"/"}>
+                  Infinity the Data
+                </Link>
+                <ThemeToggleButton />
+              </div>
+            </header>
             {children}
+            <footer className="container mx-auto h-16 px-4 text-center">
+              <p className="text-xs text-zinc-700">
+                Made with ❤️ by{" "}
+                <Link
+                  href="https://github.com/xavigomez"
+                  target="_blank"
+                  rel="noopener noreferer"
+                >
+                  Codegoons
+                </Link>
+              </p>
+            </footer>
           </ThemeProvider>
         </body>
       </TRPCReactProvider>
