@@ -346,4 +346,30 @@ export const tournamentRouter = createTRPCRouter({
 
     return tournament ?? null;
   }),
+  getTournament: publicProcedure
+    .input(findTournamentByIdSchema)
+    .query(async ({ ctx, input }) => {
+      const { tournamentId } = input;
+
+      if (!tournamentId)
+        throw new Error("GET_TOURNAMENT_PLAYER_DATA_NO_INPUT_DATA");
+
+      let foundTournament = await ctx.db.query.tournaments.findFirst({
+        where: eq(tournaments.slug, tournamentId),
+      });
+
+      // If not found by slug, try to find by UUID
+      if (!foundTournament) {
+        try {
+          foundTournament = await ctx.db.query.tournaments.findFirst({
+            where: eq(tournaments.id, tournamentId),
+          });
+        } catch (error) {
+          // Invalid UUID format, return null
+          return null;
+        }
+      }
+
+      return foundTournament;
+    }),
 });
