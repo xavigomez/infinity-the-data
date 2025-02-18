@@ -7,7 +7,8 @@ export default {
   theme: {
     extend: {
       fontFamily: {
-        sans: ["Prompt", "sans-serif"],
+        sans: ["Inter", "sans-serif"],
+        title: ["Oxanium", "sans-serif"],
       },
       borderRadius: {
         lg: "var(--radius)",
