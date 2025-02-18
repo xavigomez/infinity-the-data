@@ -26,9 +26,9 @@ export default function RootLayout({
             enableSystem
             disableTransitionOnChange
           >
-            <header className="sticky top-0 z-50 w-full px-4 text-center backdrop-blur-lg">
-              <div className="container mx-auto flex h-16 items-center justify-between">
-                <Link className="text-xl font-bold" href={"/"}>
+            <header className="sticky top-0 z-50 w-full backdrop-blur-lg">
+              <div className="container mx-auto flex h-16 items-center justify-between px-4">
+                <Link className="text-md font-bold" href={"/"}>
                   Infinity the Data
                 </Link>
                 <ThemeToggleButton />
