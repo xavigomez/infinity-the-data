@@ -1,6 +1,7 @@
 "use client";
 
 import { use } from "react";
+import { TournamentDataTable } from "~/app/tournament/[id]/_components/tournament-data-table";
 import { TournamentHeader } from "~/app/tournament/[id]/_components/tournament-header";
 
 interface Params {
@@ -20,6 +21,7 @@ export default function Page({ params }: Props) {
     <article className="container mx-auto min-h-[calc(100vh-128px)] items-center px-4 py-8">
       <TournamentHeader tournamentId={tournamentId} />
       <main>
+        <TournamentDataTable tournamentId={tournamentId} />
       </main>
     </article>
   );

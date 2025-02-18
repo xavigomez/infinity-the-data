@@ -15,9 +15,10 @@ import type {
   TournamentRound,
   TournamentRoundResult,
 } from "~/types/tournaments";
-import { eq, inArray, and } from "drizzle-orm";
+import { eq, inArray, and, or } from "drizzle-orm";
 import type { PlayerTournamentData } from "~/types/players";
-import type { FactionCode, Factions } from "~/types/meta";
+import type { FactionCode } from "~/types/meta";
+import { TRPCError } from "@trpc/server";
 
 const createTournamentInputSchema = z.object({
   otmId: z.string(),
@@ -61,6 +62,10 @@ const addRoundsTournamentInputSchema = z.object({
       endsAt: z.date().optional(),
     }),
   ),
+});
+
+const findTournamentByIdSchema = z.object({
+  tournamentId: z.string(),
 });
 
 export const tournamentRouter = createTRPCRouter({
@@ -226,6 +231,20 @@ export const tournamentRouter = createTRPCRouter({
       if (!tournamentId)
         throw new Error("GET_TOURNAMENT_PLAYER_DATA_NO_INPUT_DATA");
 
+      // Check if tournament exists
+      const foundTournament = await ctx.db
+        .select()
+        .from(tournaments)
+        .where(eq(tournaments.id, tournamentId));
+
+      // If no tournament found return 404
+      if (!foundTournament) {
+        throw new TRPCError({
+          code: "NOT_FOUND",
+          message: "Tournament not found",
+        });
+      }
+
       // Get tournament players
       const foundTournamentPlayers = await ctx.db
         .select({
@@ -286,55 +305,66 @@ export const tournamentRouter = createTRPCRouter({
         .where(eq(tournamentRounds.tournamentId, tournamentId))
         .orderBy(tournamentRounds.roundNumber);
 
-      // Transform the data into PlayerTournamentData structure
-      return playerStats.map((player): PlayerTournamentData => {
-        const playerRounds = roundResultsData.filter(
-          (round) => round.playerId === player.id,
-        );
+      return playerStats
+        .sort((a, b) => {
+          // First sort by totalTp
+          if (a.totalTp !== b.totalTp) {
+            return b.totalTp - a.totalTp; // Descending order
+          }
+          // If totalTp is equal, sort by totalOp
+          if (a.totalOp !== b.totalOp) {
+            return b.totalOp - a.totalOp; // Descending order
+          }
+          // If totalOp is also equal, sort by totalVp
+          return b.totalVp - a.totalVp; // Descending order
+        })
+        .map((player): PlayerTournamentData => {
+          const playerRounds = roundResultsData.filter(
+            (round) => round.playerId === player.id,
+          );
 
-        const matchResults = playerRounds.map((round) =>
-          round.opponentId
-            ? `Round ${round.roundNumber}: vs ${round.opponentNick}`
-            : `Round ${round.roundNumber}: BYE`,
-        );
+          const matchResults = playerRounds.map((round) =>
+            round.opponentId
+              ? `Round ${round.roundNumber}: vs ${round.opponentNick}`
+              : `Round ${round.roundNumber}: BYE`,
+          );
 
-        const matchResultsDetail = playerRounds.map((round) => ({
-          opponentInfo: {
-            nickname: round.opponentNick ?? "BYE",
-            faction: (round.opponentFaction as FactionCode) ?? "none",
-            pin: round.opponentPin ?? "0",
-          },
-          opponentPoints: {
-            tournament: round.tpEarned,
-            objective: round.opEarned,
-            victory: round.vpEarned,
-          },
-        }));
+          const matchResultsDetail = playerRounds.map((round) => ({
+            opponentInfo: {
+              nickname: round.opponentNick ?? "BYE",
+              faction: (round.opponentFaction as FactionCode) ?? "none",
+              pin: round.opponentPin ?? "0",
+            },
+            opponentPoints: {
+              tournament: round.tpEarned,
+              objective: round.opEarned,
+              victory: round.vpEarned,
+            },
+          }));
 
-        return {
-          id: player.id,
-          nickname: player.nickname,
-          lists: player.lists ?? [],
-          faction: player.faction as FactionCode,
-          matchResults,
-          matchResultsDetail,
-          pin: player.pin,
-          points: {
-            tournament: playerRounds.map((r) => r.tpEarned),
-            objective: playerRounds.map((r) => r.opEarned),
-            victory: playerRounds.map((r) => r.vpEarned),
-            reachedFivePoints: playerRounds.map((r) => r.opEarnedOver5),
-            closeLoss: playerRounds.map((r) => r.closeLoss),
-          },
-          totals: {
-            tournament: player.totalTp,
-            objective: player.totalOp,
-            victory: player.totalVp,
-          },
-        };
-      });
+          return {
+            id: player.id,
+            nickname: player.nickname,
+            lists: player.lists ?? [],
+            faction: player.faction as FactionCode,
+            matchResults,
+            matchResultsDetail,
+            pin: player.pin,
+            points: {
+              tournament: playerRounds.map((r) => r.tpEarned),
+              objective: playerRounds.map((r) => r.opEarned),
+              victory: playerRounds.map((r) => r.vpEarned),
+              reachedFivePoints: playerRounds.map((r) => r.opEarnedOver5),
+              closeLoss: playerRounds.map((r) => r.closeLoss),
+            },
+            totals: {
+              tournament: player.totalTp,
+              objective: player.totalOp,
+              victory: player.totalVp,
+            },
+          };
+        });
     }),
-
   getAllTournaments: publicProcedure.query(async ({ ctx }) => {
     const tournaments = await ctx.db.query.tournaments.findMany();
     return tournaments;
