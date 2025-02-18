@@ -37,6 +37,9 @@ export const players = createTable("players", {
 export const tournaments = createTable("tournaments", {
   id: uuid("id").primaryKey().defaultRandom(),
   otmId: text("otm_id").unique().notNull(),
+  slug: text("slug"),
+  numberOfPlayers: integer("number_of_players"),
+  numberOfRounds: integer("number_of_rounds"),
   tournamentDate: timestamp("tournament_date").notNull(),
   name: text("name").notNull(),
   code: text("code").notNull(),
