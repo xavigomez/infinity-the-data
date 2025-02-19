@@ -1,7 +1,7 @@
 import { notFound } from "next/navigation";
-import { useEffect } from "react";
 import { Badge } from "~/components/ui/badge";
 import { api } from "~/trpc/react";
+import { TournamentHeaderSkeleton } from "./tournament-header-skeleton";
 
 interface Props {
   tournamentId: string;
@@ -14,26 +14,13 @@ export function TournamentHeader({ tournamentId }: Props) {
       tournamentId: tournamentId,
     });
 
-  // If no data is found, redirect to not found page
-  useEffect(() => {
-    if (!isLoading && !tournament) notFound();
-  }, [isLoading]);
-
   // Add loading state
-  if (isLoading) {
-    return <div>Loading...</div>;
-  }
+  if (isLoading) return <TournamentHeaderSkeleton />;
 
   // Add null check for data
-  if (!tournament) {
-    return null;
-  }
-  if (!tournament) {
-    return null;
-  }
-  console.log(tournament);
+  if (!tournament) return notFound();
   return (
-    <header>
+    <header className="space-y-2">
       <h1 className="text-5xl font-bold text-primary md:text-6xl">
         {tournament.name}
       </h1>

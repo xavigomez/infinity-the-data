@@ -1,5 +1,7 @@
 import { api } from "~/trpc/react";
 
+import { notFound } from "next/navigation";
+
 import {
   type ColumnDef,
   flexRender,
@@ -18,6 +20,7 @@ import {
 
 import type { PlayerTournamentData } from "~/types/players";
 import Link from "next/link";
+import { TournamentTableSkeleton } from "./tournament-table-skeleton";
 
 interface Props {
   tournamentId: string;
@@ -113,7 +116,8 @@ export function TournamentDataTable({ tournamentId }: Props) {
     getCoreRowModel: getCoreRowModel(),
   });
 
-  if (isLoading) return <div>Loading...</div>;
+  if (isLoading) return <TournamentTableSkeleton />;
+  if (!tournament) return notFound();
 
   return (
     <div>
@@ -157,7 +161,7 @@ export function TournamentDataTable({ tournamentId }: Props) {
           )}
         </TableBody>
       </Table>
-      <pre>{JSON.stringify(tournament, null, 2)}</pre>
+      {/* <pre>{JSON.stringify(tournament, null, 2)}</pre> */}
     </div>
   );
 }
