@@ -18,6 +18,7 @@ export function TournamentHeader({ tournamentId }: Props) {
   if (isLoading) return <TournamentHeaderSkeleton />;
 
   // Add null check for data
+  // TODO: change return not found for try again
   if (!tournament) return notFound();
   return (
     <header className="space-y-2">

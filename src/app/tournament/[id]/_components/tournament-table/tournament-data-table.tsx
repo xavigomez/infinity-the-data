@@ -117,6 +117,7 @@ export function TournamentDataTable({ tournamentId }: Props) {
   });
 
   if (isLoading) return <TournamentTableSkeleton />;
+  // TODO: change return not found for try again
   if (!tournament) return notFound();
 
   return (
