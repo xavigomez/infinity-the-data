@@ -6,6 +6,7 @@ import { TRPCReactProvider } from "~/trpc/react";
 import { ThemeProvider } from "~/components/providers/theme-provider";
 import { ThemeToggleButton } from "~/components/theme-toggle-button";
 import Link from "next/link";
+import { Orbit } from "lucide-react";
 
 export const metadata: Metadata = {
   title: "Infinity The Data",
@@ -28,7 +29,11 @@ export default function RootLayout({
           >
             <header className="sticky top-0 z-50 w-full backdrop-blur-lg">
               <div className="container mx-auto flex h-16 items-center justify-between px-4">
-                <Link className="text-md font-bold" href={"/"}>
+                <Link
+                  className="text-md flex items-center gap-2 font-bold"
+                  href={"/"}
+                >
+                  <Orbit className="size-5 text-secondary" />
                   Infinity the Data
                 </Link>
                 <ThemeToggleButton />
