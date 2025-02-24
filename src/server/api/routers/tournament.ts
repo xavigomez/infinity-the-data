@@ -231,11 +231,20 @@ export const tournamentRouter = createTRPCRouter({
       if (!tournamentId)
         throw new Error("GET_TOURNAMENT_PLAYER_DATA_NO_INPUT_DATA");
 
-      // Check if tournament exists
-      const foundTournament = await ctx.db
-        .select()
-        .from(tournaments)
-        .where(eq(tournaments.id, tournamentId));
+      let foundTournament = await ctx.db.query.tournaments.findFirst({
+        where: eq(tournaments.slug, tournamentId),
+      });
+
+      // If not found by slug, try to find by UUID
+      if (!foundTournament) {
+        try {
+          foundTournament = await ctx.db.query.tournaments.findFirst({
+            where: eq(tournaments.id, tournamentId),
+          });
+        } catch (error) {
+          // TODO: Handle error
+        }
+      }
 
       // If no tournament found return 404
       if (!foundTournament) {
@@ -251,7 +260,7 @@ export const tournamentRouter = createTRPCRouter({
           playerId: tournamentPlayers.playerId,
         })
         .from(tournamentPlayers)
-        .where(eq(tournamentPlayers.tournamentId, tournamentId));
+        .where(eq(tournamentPlayers.tournamentId, foundTournament.id));
 
       if (!foundTournamentPlayers || foundTournamentPlayers.length === 0)
         throw new Error(
@@ -272,7 +281,7 @@ export const tournamentRouter = createTRPCRouter({
         })
         .from(playerTournamentStats)
         .innerJoin(players, eq(playerTournamentStats.playerId, players.id))
-        .where(eq(playerTournamentStats.tournamentId, tournamentId));
+        .where(eq(playerTournamentStats.tournamentId, foundTournament.id));
 
       // Get all round results for the tournament
       const roundResultsData = await ctx.db
@@ -299,10 +308,10 @@ export const tournamentRouter = createTRPCRouter({
           playerTournamentStats,
           and(
             eq(playerTournamentStats.playerId, roundResults.opponentId),
-            eq(playerTournamentStats.tournamentId, tournamentId),
+            eq(playerTournamentStats.tournamentId, foundTournament.id),
           ),
         )
-        .where(eq(tournamentRounds.tournamentId, tournamentId))
+        .where(eq(tournamentRounds.tournamentId, foundTournament.id))
         .orderBy(tournamentRounds.roundNumber);
 
       return playerStats
