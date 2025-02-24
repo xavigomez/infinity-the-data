@@ -26,8 +26,13 @@ import { TournamentTableSkeleton } from "./tournament-table-skeleton";
 import { Fragment } from "react";
 import { Button } from "~/components/ui/button";
 import { useCopyToClipboard } from "~/hooks/use-copy-to-clipboard";
-import { Divide } from "lucide-react";
 import { FactionLogo } from "~/components/faction-logo";
+import {
+  Popover,
+  PopoverContent,
+  PopoverTrigger,
+} from "~/components/ui/popover";
+import { ChartLine, ExternalLink, User } from "lucide-react";
 
 interface Props {
   tournamentId: string;
@@ -71,10 +76,57 @@ export function TournamentDataTable({ tournamentId }: Props) {
           cell: ({ row }) => {
             const nickname = row.original.nickname;
             const factionCode = row.original.faction;
+            const pin = row.original.pin;
+            const playerId = row.original.id;
             return (
               <div className="flex items-center gap-2">
                 <FactionLogo className="size-4" factionCode={factionCode} />
-                <span>{nickname}</span>
+                <Popover>
+                  <PopoverTrigger asChild>
+                    <Button
+                      variant="text"
+                      size="text"
+                      className="hover:text-foreground"
+                    >
+                      {nickname}
+                    </Button>
+                  </PopoverTrigger>
+                  <PopoverContent className="w-80">
+                    <div className="flex flex-col gap-2">
+                      <h4 className="font-bold">Player information</h4>
+                      <div className="flex flex-col gap-4">
+                        <div className="flex items-center gap-2">
+                          <ChartLine className="size-4 text-secondary" />
+                          <Link
+                            href={`/player/${pin}`}
+                            className="text-sm hover:text-primary"
+                          >
+                            Player Stats
+                          </Link>
+                        </div>
+                        <div className="flex items-center gap-2">
+                          <User className="size-4 text-secondary" />
+                          <Link
+                            href={`https://infinityuniverse.com/games/player/${pin}`}
+                            rel="noopener noreferrer"
+                            target="_blank"
+                            className="flex items-center gap-2 text-sm hover:text-primary"
+                          >
+                            <span>OTM Profile</span>
+                            <ExternalLink className="size-4" />
+                          </Link>
+                        </div>
+                      </div>
+                    </div>
+                  </PopoverContent>
+                </Popover>
+
+                {/* <Link
+                  className="hover:text-primary"
+                  href={`/player/${row.original.id}`}
+                >
+                  {nickname}
+                </Link> */}
               </div>
             );
           },

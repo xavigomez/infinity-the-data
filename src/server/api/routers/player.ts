@@ -16,6 +16,10 @@ const playerInputSchema = z.object({
   otmId: z.string(),
 });
 
+export const playerStatsInputSchema = z.object({
+  playerPin: z.string(),
+});
+
 const playerBatchCreateInputSchema = z.array(playerInputSchema);
 
 const addPlayerTournamentStatsInputSchema = z.object({
@@ -231,5 +235,27 @@ export const playerRouter = createTRPCRouter({
         },
       );
       return Promise.all(upsertOperations);
+    }),
+  getPlayerStats: publicProcedure
+    .input(playerStatsInputSchema)
+    .query(async ({ ctx, input }) => {
+      const { playerPin } = input;
+      if (!playerPin)
+        throw new Error("GET_PLAYER_STATS_NO_PLAYER_PIN_PROVIDED");
+
+      const foundPlayer = await ctx.db.query.players.findFirst({
+        where: eq(players.pin, playerPin),
+      });
+
+      if (!foundPlayer) throw new Error("GET_PLAYER_STATS_PLAYER_NOT_FOUND");
+
+      const foundPlayerStats = await ctx.db.query.playerStats.findFirst({
+        where: eq(playerStats.playerId, foundPlayer.id),
+      });
+
+      if (!foundPlayerStats)
+        throw new Error("GET_PLAYER_STATS_PLAYER_STATS_NOT_FOUND");
+
+      return foundPlayerStats;
     }),
 });
