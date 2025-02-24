@@ -1,14 +1,13 @@
 import "~/styles/globals.css";
 import "~/styles/fonts.css";
 import { type Metadata } from "next";
-
+import { Analytics } from "@vercel/analytics/react";
 import { TRPCReactProvider } from "~/trpc/react";
 import { ThemeProvider } from "~/components/providers/theme-provider";
 import { ThemeToggleButton } from "~/components/buttons/theme-toggle-button";
 import Link from "next/link";
 import { Orbit, SquareCode, Zap } from "lucide-react";
 import { Toaster } from "~/components/ui/sonner";
-import { FactionLogo } from "~/components/faction-logo";
 
 export const metadata: Metadata = {
   title: "Infinity The Data",
@@ -42,6 +41,7 @@ export default function RootLayout({
               </div>
             </header>
             <Toaster />
+            <Analytics />
             {children}
             <footer className="border-t border-input">
               <div className="container mx-auto flex min-h-16 flex-col items-center justify-center gap-4 px-4 sm:flex-row sm:gap-2">
