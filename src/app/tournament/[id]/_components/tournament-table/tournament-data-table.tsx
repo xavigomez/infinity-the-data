@@ -92,7 +92,7 @@ export function TournamentDataTable({ tournamentId }: Props) {
                   </PopoverTrigger>
                   <PopoverContent className="w-80">
                     <div className="flex flex-col gap-2">
-                      <h4 className="font-bold">Player information</h4>
+                      <h4 className="text-xl font-bold">Player information</h4>
                       <div className="flex flex-col gap-4">
                         <div className="flex items-center gap-2">
                           <ChartLine className="size-4 text-secondary" />
