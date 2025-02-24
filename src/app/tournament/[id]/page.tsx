@@ -18,7 +18,7 @@ export default function Page({ params }: Props) {
   const tournamentId = unwrappedParams.id;
 
   return (
-    <article className="container mx-auto min-h-[calc(100vh-128px)] space-y-4 px-4 py-8">
+    <article className="container mx-auto min-h-[calc(100vh-128px)] space-y-4 px-4 py-4 sm:py-8">
       <TournamentHeader tournamentId={tournamentId} />
       <main>
         <TournamentDataTable tournamentId={tournamentId} />

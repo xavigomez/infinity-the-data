@@ -93,10 +93,10 @@ export function TournamentDataTable({ tournamentId }: Props) {
             if (!lists || lists.length === 0)
               return <span className="italic">No lists</span>;
             return (
-              <div className="space-x-4">
+              <div className="flex flex-row gap-2">
                 {lists.map((list, index) => (
                   <Link
-                    className="hover:text-blue-500 hover:underline"
+                    className="block w-10 hover:text-blue-500 hover:underline"
                     key={list}
                     href={`https://infinitytheuniverse.com/army/list/${list}`}
                   >

@@ -26,13 +26,10 @@ export function TournamentHeader({ tournamentId }: Props) {
         {tournament.name}
       </h1>
       <div className="flex gap-2">
-        <Badge variant="reverse">
-          {tournament.tournamentDate.getFullYear()}
-        </Badge>
-        <Badge variant="reverse">ITS {tournament.its}</Badge>
         <Badge variant="reverse">{tournament.numberOfPlayers} players</Badge>
         <Badge variant="reverse">{tournament.numberOfRounds} rounds</Badge>
         <Badge variant="reverse">Tier {tournament.tier}</Badge>
+        <Badge variant="reverse">ITS {tournament.its}</Badge>
       </div>
     </header>
   );
