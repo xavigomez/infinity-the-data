@@ -26,6 +26,8 @@ import { TournamentTableSkeleton } from "./tournament-table-skeleton";
 import { Fragment } from "react";
 import { Button } from "~/components/ui/button";
 import { useCopyToClipboard } from "~/hooks/use-copy-to-clipboard";
+import { Divide } from "lucide-react";
+import { FactionLogo } from "~/components/faction-logo";
 
 interface Props {
   tournamentId: string;
@@ -65,8 +67,17 @@ export function TournamentDataTable({ tournamentId }: Props) {
           },
         },
         {
-          header: "Nickname",
-          accessorKey: "nickname",
+          header: "Player",
+          cell: ({ row }) => {
+            const nickname = row.original.nickname;
+            const factionCode = row.original.faction;
+            return (
+              <div className="flex items-center gap-2">
+                <FactionLogo className="size-4" factionCode={factionCode} />
+                <span>{nickname}</span>
+              </div>
+            );
+          },
         },
         {
           id: "totalTp",

@@ -4,10 +4,11 @@ import { type Metadata } from "next";
 
 import { TRPCReactProvider } from "~/trpc/react";
 import { ThemeProvider } from "~/components/providers/theme-provider";
-import { ThemeToggleButton } from "~/components/theme-toggle-button";
+import { ThemeToggleButton } from "~/components/buttons/theme-toggle-button";
 import Link from "next/link";
 import { Orbit, SquareCode, Zap } from "lucide-react";
 import { Toaster } from "~/components/ui/sonner";
+import { FactionLogo } from "~/components/faction-logo";
 
 export const metadata: Metadata = {
   title: "Infinity The Data",
