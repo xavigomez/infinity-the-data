@@ -27,7 +27,7 @@ export default function RootLayout({
             enableSystem
             disableTransitionOnChange
           >
-            <header className="sticky top-0 z-50 w-full backdrop-blur-lg">
+            <header className="sticky top-0 z-50 w-full border-b border-input backdrop-blur-lg">
               <div className="container mx-auto flex h-16 items-center justify-between px-4">
                 <Link
                   className="text-md flex items-center gap-2 font-bold"
@@ -40,26 +40,28 @@ export default function RootLayout({
               </div>
             </header>
             {children}
-            <footer className="container mx-auto flex min-h-16 flex-col items-center justify-center gap-4 px-4 sm:flex-row sm:gap-2">
-              <p className="flex gap-1 text-xs text-muted-foreground">
-                <SquareCode className="size-4 text-secondary" />
-                <span>
-                  Crafted by{" "}
-                  <Link
-                    className="underline transition-all hover:text-primary"
-                    href="https://github.com/xavigomez"
-                    target="_blank"
-                    rel="noopener noreferer"
-                  >
-                    Goorie
-                  </Link>
-                </span>
-              </p>
-              <span className="hidden text-muted-foreground sm:block">•</span>
-              <p className="flex gap-1 text-xs text-muted-foreground">
-                <Zap className="size-4 text-secondary" />
-                Powered by the Infinity the Game community
-              </p>
+            <footer className="border-t border-input">
+              <div className="container mx-auto flex min-h-16 flex-col items-center justify-center gap-4 px-4 sm:flex-row sm:gap-2">
+                <p className="flex gap-1 text-xs text-muted-foreground">
+                  <SquareCode className="size-4 text-secondary" />
+                  <span>
+                    Crafted by{" "}
+                    <Link
+                      className="underline transition-all hover:text-primary"
+                      href="https://github.com/xavigomez"
+                      target="_blank"
+                      rel="noopener noreferer"
+                    >
+                      Goorie
+                    </Link>
+                  </span>
+                </p>
+                <span className="hidden text-muted-foreground sm:block">•</span>
+                <p className="flex gap-1 text-xs text-muted-foreground">
+                  <Zap className="size-4 text-secondary" />
+                  Powered by the Infinity the Game community
+                </p>
+              </div>
             </footer>
           </ThemeProvider>
         </body>
