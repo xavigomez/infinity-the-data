@@ -6,8 +6,17 @@
 - [x] Be able to migrate schema from db from dev to prod
 - [x] Be able to upload data from prod
 - [x] Create db schema
-- [ ] Get data from db
-- [ ] Build tournament page
+- [x] Get data from db
+- [x] Build tournament page
+- [x] Add faction logos
+- [] Modify queries to accept slug + tournament id
+- [] Add round player matches like in the old app
+- [] Add payer stats page
+- [] Add landing page
+- [] Make sure local schema and prod schema are up to date
+- [] Better tournament table in mobile
+- [] Add # of players and # of rounds to the addition process and make them non optional
+- [] Refactor queries file tree
 
 ## Concerns
 ### 1. DB mutation types
