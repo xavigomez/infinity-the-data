@@ -77,7 +77,6 @@ export function TournamentDataTable({ tournamentId }: Props) {
             const nickname = row.original.nickname;
             const factionCode = row.original.faction;
             const pin = row.original.pin;
-            const playerId = row.original.id;
             return (
               <div className="flex items-center gap-2">
                 <FactionLogo className="size-4" factionCode={factionCode} />
@@ -120,13 +119,6 @@ export function TournamentDataTable({ tournamentId }: Props) {
                     </div>
                   </PopoverContent>
                 </Popover>
-
-                {/* <Link
-                  className="hover:text-primary"
-                  href={`/player/${row.original.id}`}
-                >
-                  {nickname}
-                </Link> */}
               </div>
             );
           },
