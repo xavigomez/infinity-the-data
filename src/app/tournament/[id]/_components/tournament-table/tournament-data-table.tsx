@@ -146,7 +146,7 @@ export function TournamentDataTable({ tournamentId }: Props) {
             };
 
             return (
-              <div className="flex flex-row gap-2">
+              <div className="flex flex-row gap-4">
                 {lists.map((list, index) => (
                   <Fragment key={list}>
                     <Link
@@ -158,6 +158,7 @@ export function TournamentDataTable({ tournamentId }: Props) {
                     <Button
                       className="block lg:hidden"
                       variant="text"
+                      size="text"
                       onClick={() => handleCopyList(list, index + 1)}
                     >
                       List {index + 1}
