@@ -6,7 +6,7 @@ import { TRPCReactProvider } from "~/trpc/react";
 import { ThemeProvider } from "~/components/providers/theme-provider";
 import { ThemeToggleButton } from "~/components/theme-toggle-button";
 import Link from "next/link";
-import { Orbit } from "lucide-react";
+import { Orbit, SquareCode, Zap } from "lucide-react";
 
 export const metadata: Metadata = {
   title: "Infinity The Data",
@@ -40,16 +40,25 @@ export default function RootLayout({
               </div>
             </header>
             {children}
-            <footer className="container mx-auto h-16 px-4 text-center">
-              <p className="text-xs text-zinc-700">
-                Made with ❤️ by{" "}
-                <Link
-                  href="https://github.com/xavigomez"
-                  target="_blank"
-                  rel="noopener noreferer"
-                >
-                  Codegoons
-                </Link>
+            <footer className="container mx-auto flex min-h-16 flex-col items-center justify-center gap-4 px-4 sm:flex-row sm:gap-2">
+              <p className="flex gap-1 text-xs text-muted-foreground">
+                <SquareCode className="size-4 text-secondary" />
+                <span>
+                  Crafted by{" "}
+                  <Link
+                    className="underline transition-all hover:text-primary"
+                    href="https://github.com/xavigomez"
+                    target="_blank"
+                    rel="noopener noreferer"
+                  >
+                    Goorie
+                  </Link>
+                </span>
+              </p>
+              <span className="hidden text-muted-foreground sm:block">•</span>
+              <p className="flex gap-1 text-xs text-muted-foreground">
+                <Zap className="size-4 text-secondary" />
+                Powered by the Infinity the Game community
               </p>
             </footer>
           </ThemeProvider>
