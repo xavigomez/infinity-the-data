@@ -2,6 +2,8 @@ import { api } from "~/trpc/react";
 
 import { notFound } from "next/navigation";
 
+import { toast } from "sonner";
+
 import {
   type ColumnDef,
   flexRender,
@@ -21,6 +23,9 @@ import {
 import type { PlayerTournamentData } from "~/types/players";
 import Link from "next/link";
 import { TournamentTableSkeleton } from "./tournament-table-skeleton";
+import { Fragment } from "react";
+import { Button } from "~/components/ui/button";
+import { useCopyToClipboard } from "~/hooks/use-copy-to-clipboard";
 
 interface Props {
   tournamentId: string;
@@ -32,6 +37,8 @@ export function TournamentDataTable({ tournamentId }: Props) {
     api.tournaments.getTournamentPlayerData.useQuery({
       tournamentId: tournamentId,
     });
+
+  const { copyToClipboard, isClipboardSupported } = useCopyToClipboard();
 
   const columns: ColumnDef<PlayerTournamentData>[] = tournament
     ? [
@@ -92,16 +99,70 @@ export function TournamentDataTable({ tournamentId }: Props) {
             const lists = row.original.lists;
             if (!lists || lists.length === 0)
               return <span className="italic">No lists</span>;
+
+            const handleCopyList = async (
+              listId: string,
+              listNumber: number,
+            ) => {
+              if (!isClipboardSupported) {
+                toast.message(
+                  <h4 className="text-sm font-extrabold">List not copied</h4>,
+                  {
+                    description: (
+                      <div className="space-y-4">
+                        <p>
+                          Your browser does not support clipboard operations.
+                          Please use a modern browser that supports newer
+                          features.
+                        </p>
+                        <p>
+                          You can manually copy it here: <span>{listId}</span>
+                        </p>
+                      </div>
+                    ),
+                  },
+                );
+                return;
+              }
+              await copyToClipboard(listId);
+              const playerNickname = row.original.nickname;
+              toast.message(
+                <h4 className="text-sm font-extrabold">List code copied</h4>,
+                {
+                  description: (
+                    <div className="space-y-4">
+                      <p>
+                        Copied List {listNumber} from {playerNickname}
+                      </p>
+                      <p className="text-xs italic text-foreground/50">
+                        For small devices, army links are not working.
+                        Furthermore the code you copied will not work on the
+                        mobile app. Please use the web app to view your lists.
+                      </p>
+                    </div>
+                  ),
+                },
+              );
+            };
+
             return (
               <div className="flex flex-row gap-2">
                 {lists.map((list, index) => (
-                  <Link
-                    className="block w-10 hover:text-blue-500 hover:underline"
-                    key={list}
-                    href={`https://infinitytheuniverse.com/army/list/${list}`}
-                  >
-                    List {index + 1}
-                  </Link>
+                  <Fragment key={list}>
+                    <Link
+                      className="hidden w-10 hover:text-blue-500 hover:underline lg:block"
+                      href={`https://infinitytheuniverse.com/army/list/${list}`}
+                    >
+                      List {index + 1}
+                    </Link>
+                    <Button
+                      className="block lg:hidden"
+                      variant="text"
+                      onClick={() => handleCopyList(list, index + 1)}
+                    >
+                      List {index + 1}
+                    </Button>
+                  </Fragment>
                 ))}
               </div>
             );
@@ -117,7 +178,7 @@ export function TournamentDataTable({ tournamentId }: Props) {
   });
 
   if (isLoading) return <TournamentTableSkeleton />;
-  // TODO: change return not found for try again
+  // TODO: change return try again
   if (!tournament) return notFound();
 
   return (
