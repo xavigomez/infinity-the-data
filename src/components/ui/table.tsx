@@ -31,7 +31,7 @@ const TableBody = React.forwardRef<
   <tbody
     ref={ref}
     className={cn(
-      "[&>tr:hover]:bg-secondary/30 [&>tr:hover]:dark:bg-secondary/30 [&_tr:last-child]:border-0",
+      "[&>tr:hover]:bg-secondary/10 [&_tr:last-child]:border-0",
       className,
     )}
     {...props}
