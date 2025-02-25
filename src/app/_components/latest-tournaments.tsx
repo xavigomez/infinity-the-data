@@ -32,11 +32,9 @@ export function LatestTournaments() {
         <h2 className="font-title text-3xl font-bold text-primary">
           Latest Tournaments
         </h2>
-        <Link href="/tournaments">
-          <Button variant="text" size="text">
-            <span>View all tournaments</span>
-            <ArrowRight className="size-4" />
-          </Button>
+        <Link href="/tournaments" className="hidden items-center gap-2 sm:flex">
+          <span>View all tournaments</span>
+          <ArrowRight className="size-4" />
         </Link>
       </div>
       {isLoadingTournaments && (
@@ -84,6 +82,13 @@ export function LatestTournaments() {
           ))}
         </ul>
       )}
+      <div className="flex justify-center sm:hidden">
+        <Button>
+          <Link href="/tournaments" className="flex items-center gap-2">
+            View all tournaments
+          </Link>
+        </Button>
+      </div>
     </article>
   );
 }
