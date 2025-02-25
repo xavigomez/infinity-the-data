@@ -39,9 +39,9 @@ export function LatestTournaments() {
       </div>
       {isLoadingTournaments && (
         <div className="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-3">
-          <Skeleton className="h-24" />
-          <Skeleton className="h-24" />
-          <Skeleton className="h-24" />
+          <Skeleton className="h-[122px]" />
+          <Skeleton className="h-[122px]" />
+          <Skeleton className="h-[122px]" />
         </div>
       )}
       {!isLoadingTournaments && !tournaments && <div>No tournaments found</div>}
