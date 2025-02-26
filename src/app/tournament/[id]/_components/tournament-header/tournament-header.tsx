@@ -22,7 +22,7 @@ export function TournamentHeader({ tournamentId }: Props) {
   if (!tournament) return notFound();
   return (
     <header className="space-y-2">
-      <h1 className="text-5xl font-bold text-primary md:text-6xl">
+      <h1 className="text-3xl font-bold text-primary sm:text-5xl md:text-6xl">
         {tournament.name}
       </h1>
       <div className="flex gap-2">

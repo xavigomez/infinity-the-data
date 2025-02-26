@@ -24,6 +24,77 @@
     --input: 240 5.9% 90%;
     --ring: 240 5.9% 10%;
     --radius: 0.5rem;
+    --chart-1: 12 76% 61%;
+    --chart-2: 173 58% 39%;
+    --chart-3: 197 37% 24%;
+    --chart-4: 43 74% 66%;
+    --chart-5: 27 87% 67%;
+    /**
+    FACTION COLORS
+
+    As of now they are derived from the Tailwind CSS color palette.
+    The values are in oklch format. Use them in this fashion: oklch(--var-name).
+    **/
+
+    /* Panoceania sectorials */
+    --faction-101: oklch(0.488 0.243 264.376);
+    --faction-103: oklch(0.623 0.214 259.815);
+    --faction-106: oklch(0.707 0.165 254.624);
+    --faction-107: oklch(0.809 0.105 251.813);
+
+    /* Yu Jing sectorials */
+    --faction-201: oklch(0.666 0.179 58.318);
+    --faction-202: oklch(0.769 0.188 70.08);
+    --faction-204: oklch(0.828 0.189 84.429);
+    --faction-205: oklch(0.879 0.169 91.605);
+
+    /* Ariadna sectorials */
+    --faction-301: oklch(0.274 0.072 132.109);
+    --faction-304: oklch(0.405 0.101 131.063);
+    --faction-305: oklch(0.453 0.124 130.933);
+    --faction-306: oklch(0.532 0.157 131.589);
+
+    /* Haqqislam sectorials */
+    --faction-401: oklch(0.286 0.066 53.813);
+    --faction-402: oklch(0.421 0.095 57.708);
+    --faction-403: oklch(0.554 0.135 66.442);
+    --faction-404: oklch(0.681 0.162 75.834);
+
+    /* Nomads sectorials */
+    --faction-501: oklch(0.444 0.177 26.899);
+    --faction-502: oklch(0.505 0.213 27.518);
+    --faction-503: oklch(0.637 0.237 25.331);
+    --faction-504: oklch(0.808 0.114 19.571);
+
+    /* Combined Army sectorials */
+    --faction-601: oklch(0.283 0.141 291.089);
+    --faction-602: oklch(0.38 0.189 293.745);
+    --faction-603: oklch(0.541 0.281 293.009);
+    --faction-604: oklch(0.702 0.183 293.541);
+
+    /* Aleph */
+    --faction-701: oklch(0.438 0.218 303.724);
+    --faction-702: oklch(0.627 0.265 303.9);
+    --faction-703: oklch(0.827 0.119 306.383);
+
+    /* Tohaa */
+    --faction-801: oklch(0.432 0.095 166.913);
+
+    /* Non-aligned Armies */
+    --faction-901: oklch(0.216 0.006 56.043);
+    --faction-902: oklch(0.374 0.01 67.558);
+    --faction-904: oklch(0.553 0.013 58.071);
+    --faction-908: oklch(0.709 0.01 56.259);
+
+    /* O-12 */
+    --faction-1001: oklch(0.129 0.042 264.695);
+    --faction-1002: oklch(0.279 0.041 260.031);
+    --faction-1003: oklch(0.446 0.043 257.281);
+
+    /* JSA */
+    --faction-1101: oklch(0.459 0.187 3.815);
+    --faction-1102: oklch(0.656 0.241 354.308);
+    --faction-1103: oklch(0.823 0.12 346.018);
   }
 
   .dark {
@@ -51,12 +122,17 @@
     --border: 262 10% 25%;
     --input: 262 10% 25%;
     --ring: 240 4.9% 83.9%;
+    --chart-1: 220 70% 50%;
+    --chart-2: 160 60% 45%;
+    --chart-3: 30 80% 55%;
+    --chart-4: 280 65% 60%;
+    --chart-5: 340 75% 55%;
   }
 }
 
 @layer base {
   * {
-    @apply border-border;
+    @apply border-border outline-ring/50;
   }
   body {
     @apply bg-background font-sans text-foreground antialiased;
@@ -64,16 +140,5 @@
 
   h1 {
     @apply font-title;
-  }
-}
-
-
-
-@layer base {
-  * {
-    @apply border-border outline-ring/50;
-  }
-  body {
-    @apply bg-background text-foreground;
   }
 }

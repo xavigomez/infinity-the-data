@@ -1,5 +1,5 @@
 import { HydrateClient } from "~/trpc/server";
-import { LatestTournaments } from "~/app/_components/latest-tournaments";
+import { LatestTournaments } from "~/components/home/latest-tournaments";
 
 export default async function Home() {
   return (

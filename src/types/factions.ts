@@ -49,13 +49,3 @@ export type FactionCode =
   | "1102"
   | "1103"
   | "1199";
-
-export interface Faction {
-  parent: number;
-  name: string;
-  slug: string;
-  discontinued: boolean;
-  logo: string;
-}
-
-export type Factions = Record<FactionCode, Faction>;

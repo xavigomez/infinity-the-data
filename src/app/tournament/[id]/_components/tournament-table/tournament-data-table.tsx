@@ -25,7 +25,7 @@ import Link from "next/link";
 import { TournamentTableSkeleton } from "./tournament-table-skeleton";
 import { Fragment } from "react";
 import { Button } from "~/components/ui/button";
-import { useCopyToClipboard } from "~/hooks/use-copy-to-clipboard";
+import { useCopyToClipboard } from "~/hooks/utils/use-copy-to-clipboard";
 import { FactionLogo } from "~/components/faction-logo";
 import {
   Popover,
@@ -33,6 +33,7 @@ import {
   PopoverTrigger,
 } from "~/components/ui/popover";
 import { ChartLine, ExternalLink, User } from "lucide-react";
+import { Card } from "~/components/ui/card";
 
 interface Props {
   tournamentId: string;
@@ -239,47 +240,57 @@ export function TournamentDataTable({ tournamentId }: Props) {
 
   return (
     <div>
-      <Table className="w-full rounded border">
-        <TableHeader>
-          {table.getHeaderGroups().map((headerGroup) => (
-            <TableRow key={headerGroup.id}>
-              {headerGroup.headers.map((header) => (
-                <TableHead key={header.id}>
-                  {header.isPlaceholder
-                    ? null
-                    : flexRender(
-                        header.column.columnDef.header,
-                        header.getContext(),
-                      )}
-                </TableHead>
-              ))}
-            </TableRow>
-          ))}
-        </TableHeader>
-        <TableBody>
-          {table.getRowModel().rows?.length ? (
-            table.getRowModel().rows.map((row) => (
-              <TableRow
-                key={row.id}
-                data-state={row.getIsSelected() && "selected"}
-              >
-                {row.getVisibleCells().map((cell) => (
-                  <TableCell key={cell.id}>
-                    {flexRender(cell.column.columnDef.cell, cell.getContext())}
-                  </TableCell>
+      <h2 className={"font-title text-2xl font-medium text-primary"}>
+        Player ranking
+      </h2>
+      <Card>
+        <Table className="w-full">
+          <TableHeader>
+            {table.getHeaderGroups().map((headerGroup) => (
+              <TableRow key={headerGroup.id}>
+                {headerGroup.headers.map((header) => (
+                  <TableHead key={header.id}>
+                    {header.isPlaceholder
+                      ? null
+                      : flexRender(
+                          header.column.columnDef.header,
+                          header.getContext(),
+                        )}
+                  </TableHead>
                 ))}
               </TableRow>
-            ))
-          ) : (
-            <TableRow>
-              <TableCell colSpan={columns.length} className="h-24 text-center">
-                No results.
-              </TableCell>
-            </TableRow>
-          )}
-        </TableBody>
-      </Table>
-      {/* <pre>{JSON.stringify(tournament, null, 2)}</pre> */}
+            ))}
+          </TableHeader>
+          <TableBody>
+            {table.getRowModel().rows?.length ? (
+              table.getRowModel().rows.map((row) => (
+                <TableRow
+                  key={row.id}
+                  data-state={row.getIsSelected() && "selected"}
+                >
+                  {row.getVisibleCells().map((cell) => (
+                    <TableCell key={cell.id}>
+                      {flexRender(
+                        cell.column.columnDef.cell,
+                        cell.getContext(),
+                      )}
+                    </TableCell>
+                  ))}
+                </TableRow>
+              ))
+            ) : (
+              <TableRow>
+                <TableCell
+                  colSpan={columns.length}
+                  className="h-24 text-center"
+                >
+                  No results.
+                </TableCell>
+              </TableRow>
+            )}
+          </TableBody>
+        </Table>
+      </Card>
     </div>
   );
 }

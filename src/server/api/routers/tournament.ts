@@ -17,7 +17,7 @@ import type {
 } from "~/types/tournaments";
 import { eq, inArray, and, or } from "drizzle-orm";
 import type { PlayerTournamentData } from "~/types/players";
-import type { FactionCode } from "~/types/meta";
+import type { FactionCode } from "~/types/factions";
 import { TRPCError } from "@trpc/server";
 
 const createTournamentInputSchema = z.object({
@@ -409,6 +409,83 @@ export const tournamentRouter = createTRPCRouter({
         }
       }
 
+      if (!foundTournament)
+        throw new Error("GET_TOURNAMENT_PLAYER_DATA_NO_FOUND_TOURNAMENT");
+
       return foundTournament;
+    }),
+  getTournamentStats: publicProcedure
+    .input(findTournamentByIdSchema)
+    .query(async ({ ctx, input }) => {
+      const { tournamentId } = input;
+
+      if (!tournamentId)
+        throw new Error("GET_TOURNAMENT_PLAYER_DATA_NO_INPUT_DATA");
+
+      let foundTournament = await ctx.db.query.tournaments.findFirst({
+        where: eq(tournaments.slug, tournamentId),
+      });
+
+      // If not found by slug, try to find by UUID
+      if (!foundTournament) {
+        try {
+          foundTournament = await ctx.db.query.tournaments.findFirst({
+            where: eq(tournaments.id, tournamentId),
+          });
+        } catch (error) {
+          // Invalid UUID format, return null
+          return null;
+        }
+      }
+
+      if (!foundTournament)
+        throw new Error("GET_TOURNAMENT_PLAYER_DATA_NO_FOUND_TOURNAMENT");
+
+      // Get player stats
+      const foundPlayerStats =
+        await ctx.db.query.playerTournamentStats.findMany({
+          where: eq(playerTournamentStats.tournamentId, foundTournament.id),
+        });
+
+      // Extract sectorial stats from foundPlayerStats
+      const sectorialStats = foundPlayerStats.reduce(
+        (acc, player) => {
+          const faction = player.faction as FactionCode;
+          if (!acc[faction]) {
+            acc[faction] = 1;
+          } else {
+            acc[faction]++;
+          }
+          return acc;
+        },
+        {} as Record<FactionCode, number>,
+      );
+
+      // Extract faction stats. Factions are sectorials grouped by faction.
+      // e.g. 101 is panoceania. All pano sectorials will be grouped under 101.
+      // Pano sectorials start with 10, so 102, 103, 104, etc.
+      // Factions go from "10" to "110". So "10X" is pano, but "110X" is JSA.
+      const factionStats = Object.entries(sectorialStats).reduce(
+        (acc, [sectorial, count]) => {
+          let faction;
+          if (sectorial.length === 4) {
+            faction = (sectorial.substring(0, 2) + "01") as FactionCode;
+          } else {
+            faction = (sectorial[0] + "01") as FactionCode;
+          }
+
+          if (!acc[faction]) {
+            acc[faction] = count;
+          } else {
+            acc[faction] += count;
+          }
+          return acc;
+        },
+        {} as Record<FactionCode, number>,
+      );
+
+      console.log({ sectorialStats, factionStats });
+
+      return { sectorialStats, factionStats };
     }),
 });

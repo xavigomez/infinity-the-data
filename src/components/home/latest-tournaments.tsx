@@ -1,23 +1,9 @@
 "use client";
 
-import {
-  ArrowRight,
-  Calendar,
-  CircleGauge,
-  FileBadge,
-  Target,
-  Users,
-} from "lucide-react";
+import { ArrowRight, Calendar, FileBadge, Target, Users } from "lucide-react";
 import Link from "next/link";
 import { Button } from "~/components/ui/button";
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardFooter,
-  CardHeader,
-  CardTitle,
-} from "~/components/ui/card";
+import { Card, CardContent, CardHeader, CardTitle } from "~/components/ui/card";
 import { Skeleton } from "~/components/ui/skeleton";
 import { api } from "~/trpc/react";
 

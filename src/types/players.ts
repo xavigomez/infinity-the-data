@@ -1,4 +1,4 @@
-import type { FactionCode } from "~/types/meta";
+import type { FactionCode } from "~/types/factions";
 
 export interface Player {
   id: string;
