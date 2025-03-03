@@ -99,7 +99,7 @@ export function FactionParticipationChart({
           checked={showSectorial}
           onCheckedChange={(checked) => setShowSectorial(checked)}
         />
-        <Label htmlFor="breakdown-secotorial" className="text-sm">
+        <Label htmlFor="breakdown-secotorial" className="text-xs">
           Breakdown by sectorial
         </Label>
       </CardFooter>

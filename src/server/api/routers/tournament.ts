@@ -461,6 +461,30 @@ export const tournamentRouter = createTRPCRouter({
         {} as Record<FactionCode, number>,
       );
 
+      const sectorialPoints = foundPlayerStats.reduce(
+        (acc, player) => {
+          const faction = player.faction as FactionCode;
+          if (!acc[faction]) {
+            acc[faction] = {
+              vp: player.vpEarned,
+              op: player.opEarned,
+              tp: player.tpEarned,
+              totalPlayers: 1,
+            };
+          } else {
+            acc[faction].vp += player.vpEarned;
+            acc[faction].op += player.opEarned;
+            acc[faction].tp += player.tpEarned;
+            acc[faction].totalPlayers++;
+          }
+          return acc;
+        },
+        {} as Record<
+          FactionCode,
+          { vp: number; op: number; tp: number; totalPlayers: number }
+        >,
+      );
+
       // Extract faction stats. Factions are sectorials grouped by faction.
       // e.g. 101 is panoceania. All pano sectorials will be grouped under 101.
       // Pano sectorials start with 10, so 102, 103, 104, etc.
@@ -484,8 +508,31 @@ export const tournamentRouter = createTRPCRouter({
         {} as Record<FactionCode, number>,
       );
 
-      console.log({ sectorialStats, factionStats });
+      const factionPoints = Object.entries(sectorialPoints).reduce(
+        (acc, [sectorial, points]) => {
+          let faction;
+          if (sectorial.length === 4) {
+            faction = (sectorial.substring(0, 2) + "01") as FactionCode;
+          } else {
+            faction = (sectorial[0] + "01") as FactionCode;
+          }
 
-      return { sectorialStats, factionStats };
+          if (!acc[faction]) {
+            acc[faction] = { ...points };
+          } else {
+            acc[faction].vp += points.vp;
+            acc[faction].op += points.op;
+            acc[faction].tp += points.tp;
+            acc[faction].totalPlayers += points.totalPlayers;
+          }
+          return acc;
+        },
+        {} as Record<
+          FactionCode,
+          { vp: number; op: number; tp: number; totalPlayers: number }
+        >,
+      );
+
+      return { sectorialStats, factionStats, sectorialPoints, factionPoints };
     }),
 });

@@ -2,7 +2,7 @@
 import { use } from "react";
 import { TournamentDataTable } from "~/app/tournament/[id]/_components/tournament-table/tournament-data-table";
 import { TournamentHeader } from "~/app/tournament/[id]/_components/tournament-header/tournament-header";
-import { FactionParticipationStats } from "~/app/tournament/[id]/_components/tournament-stats/faction-participation-stats";
+import { FactionsStats } from "~/app/tournament/[id]/_components/tournament-stats/faction-stats";
 
 interface Params {
   id: string;
@@ -21,7 +21,7 @@ export default function Page({ params }: Props) {
     <article className="container mx-auto min-h-[calc(100vh-128px)] p-4">
       <TournamentHeader tournamentId={tournamentID} />
       <main className="mt-8 space-y-4">
-        <FactionParticipationStats tournamentID={tournamentID} />
+        <FactionsStats tournamentID={tournamentID} />
         <TournamentDataTable tournamentId={tournamentID} />
       </main>
     </article>

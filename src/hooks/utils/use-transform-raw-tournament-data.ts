@@ -278,7 +278,6 @@ export default function useTransformRawTournamentData() {
       results,
       tournamentOtmId,
     };
-    console.log(roundResults);
     setRoundResults(roundResults);
   };
   const handleTransformPlayerTournamentStats = (
