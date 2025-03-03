@@ -27,7 +27,7 @@ export function FactionsStats({ tournamentID }: Props) {
     );
   if (!stats) return "no stats";
   return (
-    <div>
+    <div className="space-y-4">
       <h2 className={"font-title text-2xl font-medium text-primary"}>
         Faction stats
       </h2>

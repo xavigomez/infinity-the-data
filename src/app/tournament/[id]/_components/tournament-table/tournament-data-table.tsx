@@ -239,7 +239,7 @@ export function TournamentDataTable({ tournamentId }: Props) {
   if (!tournament) return notFound();
 
   return (
-    <div>
+    <div className="space-y-4">
       <h2 className={"font-title text-2xl font-medium text-primary"}>
         Player ranking
       </h2>
