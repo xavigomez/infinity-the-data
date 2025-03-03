@@ -2,7 +2,7 @@
 
 import { api } from "~/trpc/react";
 import { FactionParticipationChart } from "~/app/tournament/[id]/_components/tournament-stats/faction-participation-chart";
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "~/components/ui/tabs";
+import { Skeleton } from "~/components/ui/skeleton";
 
 interface Props {
   tournamentID: string;
@@ -13,7 +13,12 @@ export function FactionParticipationStats({ tournamentID }: Props) {
     api.tournaments.getTournamentStats.useQuery({
       tournamentId: tournamentID,
     });
-  if (isLoading) return "loading...";
+  if (isLoading)
+    return (
+      <div className={"grid w-full grid-cols-1 sm:grid-cols-2 xl:grid-cols-4"}>
+        <Skeleton className="h-[362px]" />
+      </div>
+    );
   if (!stats) return "no stats";
   return (
     <div>
