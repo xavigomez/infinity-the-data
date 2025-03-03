@@ -2,7 +2,6 @@
 
 import { api } from "~/trpc/react";
 import { FactionParticipationChart } from "~/app/tournament/[id]/_components/tournament-stats/faction-participation-chart";
-import { SectorialParticipationChart } from "~/app/tournament/[id]/_components/tournament-stats/sectorial-participation-chart";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "~/components/ui/tabs";
 
 interface Props {
