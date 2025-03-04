@@ -21,6 +21,7 @@ export default function Page({ params }: Props) {
   const unwrappedParams = use(params);
   const tournamentID = unwrappedParams.id;
 
+  // TODO: implement different tournament navigation in mobile past the tabs trigger
   useEffect(() => {
     const scrollY = window.scrollY;
     console.log(scrollY);
@@ -44,12 +45,7 @@ export default function Page({ params }: Props) {
       <TournamentHeader tournamentId={tournamentID} />
       <main className="mt-8 space-y-4">
         <Tabs defaultValue="players" className={"block space-y-8 sm:hidden"}>
-          <TabsList
-            className={cn(
-              "grid w-full grid-cols-2 sm:w-[400px]",
-              scrolledPastHeader && "sticky top-20 z-10",
-            )}
-          >
+          <TabsList className={"grid w-full grid-cols-2 sm:w-[400px]"}>
             <TabsTrigger value="players">Players</TabsTrigger>
             <TabsTrigger value="faction-stats">Faction stats</TabsTrigger>
           </TabsList>
