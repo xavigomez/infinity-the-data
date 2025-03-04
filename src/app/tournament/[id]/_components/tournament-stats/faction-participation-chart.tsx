@@ -68,8 +68,12 @@ export function FactionParticipationChart({
   return (
     <Card className="flex flex-col">
       <CardHeader className="items-center pb-0">
-        <CardTitle>Faction participation</CardTitle>
-        <CardDescription># of factions</CardDescription>
+        <CardTitle>
+          {showSectorial ? "Sectorial " : "Faction"} participation
+        </CardTitle>
+        <CardDescription>
+          COUNT of {showSectorial ? "sectorials" : "faction"}
+        </CardDescription>
       </CardHeader>
       <CardContent className="flex-1 pb-0">
         <ChartContainer

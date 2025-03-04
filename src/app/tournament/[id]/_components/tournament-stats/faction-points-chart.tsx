@@ -88,8 +88,18 @@ export function FactionPointsChart({ factionPoints, sectorialPoints }: Props) {
   return (
     <Card className="flex flex-col">
       <CardHeader className="items-center pb-0">
-        <CardTitle>Faction points</CardTitle>
-        <CardDescription>SUM of faction points</CardDescription>
+        <CardTitle>
+          {showSectorial ? "Sectorial " : "Faction"}{" "}
+          {selectedPoints === "tp"
+            ? "tournament"
+            : selectedPoints === "op"
+              ? "objective"
+              : "victory"}{" "}
+          points
+        </CardTitle>
+        <CardDescription>
+          SUM of {showSectorial ? "sectorial " : "faction"} points
+        </CardDescription>
       </CardHeader>
       <CardContent className="flex-1 pb-0">
         <ChartContainer
