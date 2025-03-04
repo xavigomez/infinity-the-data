@@ -126,11 +126,11 @@ export function FactionPerformanceChart({
       </CardContent>
       <CardFooter className="justify-center gap-2">
         <Switch
-          id="breakdown-secotorial"
+          id="breakdown-sectorial-performance"
           checked={showSectorial}
           onCheckedChange={(checked) => setShowSectorial(checked)}
         />
-        <Label htmlFor="breakdown-secotorial" className="text-xs">
+        <Label htmlFor="breakdown-sectorial-performance" className="text-xs">
           Breakdown by sectorial
         </Label>
       </CardFooter>

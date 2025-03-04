@@ -99,11 +99,11 @@ export function FactionParticipationChart({
       </CardContent>
       <CardFooter className="justify-center gap-2">
         <Switch
-          id="breakdown-secotorial"
+          id="breakdown-sectorial-participation"
           checked={showSectorial}
           onCheckedChange={(checked) => setShowSectorial(checked)}
         />
-        <Label htmlFor="breakdown-secotorial" className="text-xs">
+        <Label htmlFor="breakdown-sectorial-participation" className="text-xs">
           Breakdown by sectorial
         </Label>
       </CardFooter>
