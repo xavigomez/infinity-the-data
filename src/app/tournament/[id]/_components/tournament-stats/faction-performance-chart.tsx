@@ -96,7 +96,7 @@ export function FactionPerformanceChart({
                   {showSectorial ? "sectorial" : "faction"}_vp) /
                   faction_players
                 </p>
-                <p>Feel free to contact me for to discuss a better approach</p>
+                <p>Feel free to contact me to discuss a better approach.</p>
               </TooltipContent>
             </Tooltip>
           </TooltipProvider>
