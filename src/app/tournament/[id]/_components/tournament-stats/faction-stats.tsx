@@ -4,6 +4,7 @@ import { api } from "~/trpc/react";
 import { FactionParticipationChart } from "~/app/tournament/[id]/_components/tournament-stats/faction-participation-chart";
 import { FactionPointsChart } from "~/app/tournament/[id]/_components/tournament-stats/faction-points-chart";
 import { Skeleton } from "~/components/ui/skeleton";
+import { FactionPerformanceChart } from "./faction-performance-chart";
 
 interface Props {
   tournamentID: string;
@@ -25,6 +26,7 @@ export function FactionsStats({ tournamentID }: Props) {
         <Skeleton className="h-[362px]" />
       </div>
     );
+  // TODO: implement not stats screen/try again/better error handling
   if (!stats) return "no stats";
   return (
     <div className="space-y-4">
@@ -36,6 +38,10 @@ export function FactionsStats({ tournamentID }: Props) {
           "grid w-full grid-cols-1 gap-4 sm:grid-cols-2 xl:grid-cols-3"
         }
       >
+        <FactionPerformanceChart
+          factionPerformance={stats.factionPerformance}
+          sectorialPerformance={stats.sectorialPerformance}
+        />
         <FactionParticipationChart
           factionStats={stats.factionStats}
           sectorialStats={stats.sectorialStats}

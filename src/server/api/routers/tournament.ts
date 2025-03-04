@@ -461,6 +461,36 @@ export const tournamentRouter = createTRPCRouter({
         {} as Record<FactionCode, number>,
       );
 
+      // First, collect total points and player counts per faction
+      const sectorialPerformanceRawData = foundPlayerStats.reduce(
+        (acc, player) => {
+          const faction = player.faction as FactionCode;
+          if (!acc[faction]) {
+            acc[faction] = {
+              totalPoints: player.vpEarned + player.opEarned + player.tpEarned,
+              count: 1,
+            };
+          } else {
+            acc[faction].totalPoints +=
+              player.vpEarned + player.opEarned + player.tpEarned;
+            acc[faction].count += 1;
+          }
+          return acc;
+        },
+        {} as Record<FactionCode, { totalPoints: number; count: number }>,
+      );
+
+      // Then calculate the average performance for each faction
+      const sectorialPerformance = Object.entries(
+        sectorialPerformanceRawData,
+      ).reduce(
+        (acc, [faction, { totalPoints, count }]) => {
+          acc[faction as FactionCode] = totalPoints / count;
+          return acc;
+        },
+        {} as Record<FactionCode, number>,
+      );
+
       const sectorialPoints = foundPlayerStats.reduce(
         (acc, player) => {
           const faction = player.faction as FactionCode;
@@ -508,6 +538,45 @@ export const tournamentRouter = createTRPCRouter({
         {} as Record<FactionCode, number>,
       );
 
+      const factionPerformanceRawData = Object.entries(
+        sectorialPerformanceRawData,
+      ).reduce(
+        (acc, [sectorial, performance]) => {
+          let faction;
+          if (sectorial.length === 4) {
+            faction = (sectorial.substring(0, 2) + "01") as FactionCode;
+          } else {
+            faction = (sectorial[0] + "01") as FactionCode;
+          }
+
+          if (!acc[faction]) {
+            acc[faction] = {
+              totalPoints: performance.totalPoints,
+              totalPlayers: performance.count,
+            };
+          } else {
+            acc[faction].totalPoints += performance.totalPoints;
+            acc[faction].totalPlayers += performance.count;
+          }
+          return acc;
+        },
+        {} as Record<
+          FactionCode,
+          { totalPoints: number; totalPlayers: number }
+        >,
+      );
+
+      const factionPerformance = Object.entries(
+        factionPerformanceRawData,
+      ).reduce(
+        (acc, [faction, { totalPoints, totalPlayers }]) => {
+          const factionCode = faction as FactionCode;
+          acc[factionCode] = totalPoints / totalPlayers;
+          return acc;
+        },
+        {} as Record<FactionCode, number>,
+      );
+
       const factionPoints = Object.entries(sectorialPoints).reduce(
         (acc, [sectorial, points]) => {
           let faction;
@@ -533,6 +602,13 @@ export const tournamentRouter = createTRPCRouter({
         >,
       );
 
-      return { sectorialStats, factionStats, sectorialPoints, factionPoints };
+      return {
+        sectorialStats,
+        factionStats,
+        sectorialPoints,
+        factionPoints,
+        sectorialPerformance,
+        factionPerformance,
+      };
     }),
 });
