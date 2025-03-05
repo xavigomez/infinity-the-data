@@ -1,9 +1,9 @@
 "use client";
 
-import { ArrowRight, Calendar, FileBadge, Target, Users } from "lucide-react";
+import { ArrowRight } from "lucide-react";
 import Link from "next/link";
 import { Button } from "~/components/ui/button";
-import { Card, CardContent, CardHeader, CardTitle } from "~/components/ui/card";
+import { TournamentCard } from "~/components/tournaments/tournament-card";
 import { Skeleton } from "~/components/ui/skeleton";
 import { api } from "~/trpc/react";
 
@@ -34,37 +34,15 @@ export function LatestTournaments() {
       {!isLoadingTournaments && tournaments && (
         <ul className="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-3">
           {tournaments.map((tournament) => (
-            <li key={tournament.id}>
-              <Link href={`/tournament/${tournament.slug}`}>
-                <Card>
-                  <CardHeader className="pb-2">
-                    <CardTitle>{tournament.name}</CardTitle>
-                  </CardHeader>
-                  <CardContent>
-                    <ul className="grid grid-cols-2 gap-2 text-sm [&>li]:flex [&>li]:items-center [&>li]:gap-1">
-                      <li>
-                        <Users className="size-4 text-secondary" />
-                        <span>{tournament.numberOfPlayers} players</span>
-                      </li>
-                      <li>
-                        <Target className="size-4 text-secondary" />
-                        <span>{tournament.numberOfRounds} rounds</span>
-                      </li>
-                      <li>
-                        <Calendar className="size-4 text-secondary" />
-                        <span>
-                          {tournament.tournamentDate.toLocaleDateString()}
-                        </span>
-                      </li>
-                      <li>
-                        <FileBadge className="size-4 text-secondary" />
-                        <span>ITS {tournament.its}</span>
-                      </li>
-                    </ul>
-                  </CardContent>
-                </Card>
-              </Link>
-            </li>
+            <TournamentCard
+              key={tournament.id}
+              slug={tournament.slug}
+              name={tournament.name}
+              numberOfPlayers={tournament.numberOfPlayers}
+              numberOfRounds={tournament.numberOfRounds}
+              tournamentDate={tournament.tournamentDate}
+              its={tournament.its}
+            />
           ))}
         </ul>
       )}
