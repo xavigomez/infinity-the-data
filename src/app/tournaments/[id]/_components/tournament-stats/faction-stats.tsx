@@ -1,8 +1,8 @@
 "use client";
 
 import { api } from "~/trpc/react";
-import { FactionParticipationChart } from "~/app/tournament/[id]/_components/tournament-stats/faction-participation-chart";
-import { FactionPointsChart } from "~/app/tournament/[id]/_components/tournament-stats/faction-points-chart";
+import { FactionParticipationChart } from "~/app/tournaments/[id]/_components/tournament-stats/faction-participation-chart";
+import { FactionPointsChart } from "~/app/tournaments/[id]/_components/tournament-stats/faction-points-chart";
 import { Skeleton } from "~/components/ui/skeleton";
 import { FactionPerformanceChart } from "./faction-performance-chart";
 

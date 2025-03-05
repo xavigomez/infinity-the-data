@@ -1,9 +1,9 @@
 "use client";
 
 import { use, useEffect, useState } from "react";
-import { TournamentDataTable } from "~/app/tournament/[id]/_components/tournament-table/tournament-data-table";
-import { TournamentHeader } from "~/app/tournament/[id]/_components/tournament-header/tournament-header";
-import { FactionsStats } from "~/app/tournament/[id]/_components/tournament-stats/faction-stats";
+import { TournamentDataTable } from "~/app/tournaments/[id]/_components/tournament-table/tournament-data-table";
+import { TournamentHeader } from "~/app/tournaments/[id]/_components/tournament-header/tournament-header";
+import { FactionsStats } from "~/app/tournaments/[id]/_components/tournament-stats/faction-stats";
 import { Tabs, TabsList, TabsTrigger, TabsContent } from "~/components/ui/tabs";
 import { cn } from "~/lib/utils";
 
