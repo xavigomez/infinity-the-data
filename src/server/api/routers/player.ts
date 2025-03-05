@@ -256,6 +256,6 @@ export const playerRouter = createTRPCRouter({
       if (!foundPlayerStats)
         throw new Error("GET_PLAYER_STATS_PLAYER_STATS_NOT_FOUND");
 
-      return foundPlayerStats;
+      return { nickname: foundPlayer.nick, ...foundPlayerStats };
     }),
 });
