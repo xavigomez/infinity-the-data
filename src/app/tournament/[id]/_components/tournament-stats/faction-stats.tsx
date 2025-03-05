@@ -19,11 +19,12 @@ export function FactionsStats({ tournamentID }: Props) {
     return (
       <div
         className={
-          "grid w-full grid-cols-1 gap-4 sm:grid-cols-2 xl:grid-cols-3"
+          "grid w-full grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3"
         }
       >
         <Skeleton className="h-[362px]" />
         <Skeleton className="h-[362px]" />
+        <Skeleton className="hidden h-[362px] lg:block" />
       </div>
     );
   // TODO: implement not stats screen/try again/better error handling
@@ -35,7 +36,7 @@ export function FactionsStats({ tournamentID }: Props) {
       </h2>
       <div
         className={
-          "grid w-full grid-cols-1 gap-4 sm:grid-cols-2 xl:grid-cols-3"
+          "grid w-full grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3"
         }
       >
         <FactionPerformanceChart

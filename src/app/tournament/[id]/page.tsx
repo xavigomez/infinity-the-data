@@ -44,7 +44,7 @@ export default function Page({ params }: Props) {
     <article className="container relative mx-auto min-h-[calc(100vh-128px)] space-y-4 p-4">
       <TournamentHeader tournamentId={tournamentID} />
       <main className="mt-8 space-y-4">
-        <Tabs defaultValue="players" className={"block space-y-8 sm:hidden"}>
+        <Tabs defaultValue="players" className={"block space-y-8 lg:hidden"}>
           <TabsList className={"grid w-full grid-cols-2 sm:w-[400px]"}>
             <TabsTrigger value="players">Players</TabsTrigger>
             <TabsTrigger value="faction-stats">Faction stats</TabsTrigger>
@@ -56,7 +56,7 @@ export default function Page({ params }: Props) {
             <FactionsStats tournamentID={tournamentID} />
           </TabsContent>
         </Tabs>
-        <div className="hidden space-y-4 sm:block">
+        <div className="hidden space-y-4 lg:block">
           <FactionsStats tournamentID={tournamentID} />
           <TournamentDataTable tournamentId={tournamentID} />
         </div>
