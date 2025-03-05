@@ -1,29 +1,22 @@
 "use client";
 
-import { ArrowRight } from "lucide-react";
-import Link from "next/link";
-import { Button } from "~/components/ui/button";
 import { TournamentCard } from "~/components/tournaments/tournament-card";
 import { Skeleton } from "~/components/ui/skeleton";
 import { api } from "~/trpc/react";
 
-export function LatestTournaments() {
+export default function TournamentsPage() {
   const { data: tournaments, isLoading: isLoadingTournaments } =
     api.tournaments.getAllTournaments.useQuery();
 
   if (!isLoadingTournaments && !tournaments) return;
   return (
-    <article className="space-y-4">
+    <article className="container mx-auto min-h-[calc(100vh-128px)] space-y-4 px-4 py-4 sm:py-8">
       <div className="flex items-center justify-between">
         <h2 className="font-title text-3xl font-bold text-primary">
-          Latest Tournaments
+          All tournaments
         </h2>
-        <Link href="/tournaments" className="hidden items-center gap-2 sm:flex">
-          <span>View all tournaments</span>
-          <ArrowRight className="size-4" />
-        </Link>
       </div>
-      <main className="space-y-4">
+      <main>
         {isLoadingTournaments && (
           <div className="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-3">
             <Skeleton className="h-[122px]" />
@@ -49,13 +42,6 @@ export function LatestTournaments() {
             ))}
           </ul>
         )}
-        <div className="flex justify-center sm:hidden">
-          <Button>
-            <Link href="/tournaments" className="flex items-center gap-2">
-              View all tournaments
-            </Link>
-          </Button>
-        </div>
       </main>
     </article>
   );
